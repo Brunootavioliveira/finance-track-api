@@ -7,8 +7,10 @@
   }
 }
 
-}
+{
     "name": "Julia",
     "email": "ju@gmail.com",
     "password": "12345"
 }
+
+
