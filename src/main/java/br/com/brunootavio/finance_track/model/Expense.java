@@ -29,4 +29,8 @@ public class Expense { //despesas
     @JoinColumn(name = "user_id") //esse despesa pertence ao usuario de numero 1
     //cria uma coluna user_id, para guardar o numero do usuario dona da despesa
     private User user; //essa despesa pertence a um objeto user
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

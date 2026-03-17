@@ -3,11 +3,9 @@ package br.com.brunootavio.finance_track.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.logging.log4j.message.StringFormattedMessage;
+import org.hibernate.engine.internal.Cascade;
 
 import java.util.List;
 
@@ -16,6 +14,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor //Cria contrutor vazio
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
 public class User {
 
@@ -31,7 +31,16 @@ public class User {
     @NotBlank
     private String password;
 
-    @OneToMany(mappedBy = "user") //um usuario para varias dispesas. mappedny: quem manda na relacao é o campo user
     @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //um usuario para varias dispesas. mappedny: quem manda na relacao é o campo user
     private List<Expense> expenses;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Income> incomes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Category> categories;
+
 }
