@@ -23,7 +23,7 @@ public class Expense { //despesas
     private BigDecimal amount;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")//valor
     @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDateTime dateTime;
 
     @ManyToOne //muitas despesas pertencem a um usuario
     @JoinColumn(name = "user_id") //esse despesa pertence ao usuario de numero 1

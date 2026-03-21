@@ -1,16 +1,35 @@
-{
-  "description": "Netflix",
-  "amount": 39.90,
-  "date": "2026-03-04",
-  "user": {
-    "id": 1
-  }
-}
-
+POST/ USER
 {
     "name": "Julia",
     "email": "ju@gmail.com",
     "password": "12345"
 }
 
+POST/ AUTH/LOGIN
+{
+    "email": "ju@gmail.com",
+    "password": "12345"
+}
+
+
+POST/ INCOME:
+{
+  "description": "Salario",
+  "amount": 35.50
+}
+
+POST/ CATEGORY
+{
+  "name": "Alimentação"
+}
+
+POST/ EXPENSE
+{
+  "description": "Almoço",
+  "amount": 35.50,
+  "categoryId": 1
+}
+
+DELETE/ INCOME/1
+DELETE/ EXPENSE/1
 
