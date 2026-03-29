@@ -5,6 +5,7 @@ import br.com.brunootavio.finance_track.dto.IncomeResponseDTO;
 import br.com.brunootavio.finance_track.model.Income;
 import br.com.brunootavio.finance_track.service.IncomeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class IncomeController {
     private final IncomeService incomeService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<IncomeResponseDTO> create(@RequestBody IncomeRequestDTO dto) {
 
         Income income = Income.builder()
@@ -37,6 +39,7 @@ public class IncomeController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<IncomeResponseDTO>> list() {
 
         List<IncomeResponseDTO> response = incomeService.listIncomeByUser()
@@ -53,6 +56,7 @@ public class IncomeController {
     }
 
     @DeleteMapping("/{id}") //DELETE /income/5
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> delete(@PathVariable Long id) { //Pega o valor da URL, extrai e joga na variavel (id = 5)
         incomeService.deleteIncome(id);
         return  ResponseEntity.noContent().build();

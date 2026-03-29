@@ -1,5 +1,7 @@
 package br.com.brunootavio.finance_track.service;
 
+import br.com.brunootavio.finance_track.exception.ResouceNotFoundException;
+import br.com.brunootavio.finance_track.exception.UnauthorizedException;
 import br.com.brunootavio.finance_track.model.Income;
 import br.com.brunootavio.finance_track.model.User;
 import br.com.brunootavio.finance_track.repository.IncomeRepository;
@@ -38,10 +40,10 @@ public class IncomeService {
         User user = securityService.get();
 
         Income income = incomeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Income não encontrado"));
+                .orElseThrow(() -> new ResouceNotFoundException("Income não encontrado"));
 
         if (!income.getUser().getId().equals(user.getId())) {
-            throw new RuntimeException("Acesso negado");
+            throw new UnauthorizedException("Acesso negado");
         }
 
         incomeRepository.delete(income);

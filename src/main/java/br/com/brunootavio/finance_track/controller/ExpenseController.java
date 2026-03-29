@@ -5,6 +5,7 @@ import br.com.brunootavio.finance_track.dto.ExpenseResponseDTO;
 import br.com.brunootavio.finance_track.model.Expense;
 import br.com.brunootavio.finance_track.service.ExpenseService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class ExpenseController {
     public final ExpenseService expenseService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ExpenseResponseDTO> save(@RequestBody ExpenseRequestDTO dto) { //resposta completa http
 
         Expense expense = new Expense();
@@ -36,6 +38,7 @@ public class ExpenseController {
     }
 
     @GetMapping //endpoint get(buscar dados)
+    @ResponseStatus(HttpStatus.OK)
     public List<ExpenseResponseDTO> list() {
         return expenseService.allList()
                 .stream()
@@ -50,6 +53,7 @@ public class ExpenseController {
     }
 
     @DeleteMapping("/{id}") //DELETE /income/5
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> delete(@PathVariable Long id) { //Pega o valor da URL, extrai e joga na variavel (id = 5)
         expenseService.deleteExpense(id);
         return  ResponseEntity.noContent().build();

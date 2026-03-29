@@ -1,5 +1,6 @@
 package br.com.brunootavio.finance_track.service;
 
+import br.com.brunootavio.finance_track.exception.ResouceNotFoundException;
 import br.com.brunootavio.finance_track.model.User;
 import br.com.brunootavio.finance_track.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,6 @@ public class SecurityService {
                 .getName();
 
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+                .orElseThrow(() -> new ResouceNotFoundException("Usuário não encontrado!"));
     }
 }

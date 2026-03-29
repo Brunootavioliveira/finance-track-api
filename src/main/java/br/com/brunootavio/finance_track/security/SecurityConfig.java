@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
 
@@ -19,9 +21,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable()) // desativa proteção CSRF, usado para protecao em navegacao com cookie
+                .cors(cors -> {})
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/user").permitAll() // se nao fizer /auth/login nao vai entrar
+                        .requestMatchers("/auth/**",
+                                "/user",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**").permitAll() // se nao fizer /auth/login nao vai entrar
                         .anyRequest().authenticated() // qualquer outra rota precisa ser autenticadas
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

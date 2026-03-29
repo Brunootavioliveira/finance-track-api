@@ -1,5 +1,7 @@
 package br.com.brunootavio.finance_track.service;
 
+import br.com.brunootavio.finance_track.exception.BusinessException;
+import br.com.brunootavio.finance_track.exception.ResouceNotFoundException;
 import br.com.brunootavio.finance_track.model.Category;
 import br.com.brunootavio.finance_track.model.User;
 import br.com.brunootavio.finance_track.repository.CategoryRepository;
@@ -21,7 +23,7 @@ public class CategoryService {
         User user = securityService.get();
 
         if (categoryRepository.findByNameAndUser(category.getName(), user).isPresent()) {
-            throw new RuntimeException("Você já tem uma categoria com esse nome!");
+            throw new BusinessException("Você já tem uma categoria com esse nome!");
         }
 
         category.setUser(user);
@@ -31,5 +33,15 @@ public class CategoryService {
     public List<Category> listAll() {
         User user = securityService.get();
         return categoryRepository.findByUser(user);
+    }
+
+    public Category deleteCategory(Long id) {
+        User user = securityService.get();
+
+        Category category = categoryRepository.findByIdAndUser(id, user)
+                .orElseThrow(()-> new ResouceNotFoundException("Categoria não encontrada!"));
+
+        categoryRepository.delete(category);
+        return category;
     }
 }

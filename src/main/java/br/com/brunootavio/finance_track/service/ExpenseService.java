@@ -1,5 +1,7 @@
 package br.com.brunootavio.finance_track.service;
 
+import br.com.brunootavio.finance_track.exception.BusinessException;
+import br.com.brunootavio.finance_track.exception.ResouceNotFoundException;
 import br.com.brunootavio.finance_track.model.Category;
 import br.com.brunootavio.finance_track.model.Expense;
 import br.com.brunootavio.finance_track.model.Income;
@@ -19,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExpenseService{
 
-    public final UserRepository userRepository;
     public final SecurityService securityService;
     public final ExpenseRepository expenseRepository;
     public final CategoryRepository categoryRepository;
@@ -29,10 +30,10 @@ public class ExpenseService{
         User user = securityService.get();
 
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                .orElseThrow(() -> new ResouceNotFoundException("Categoria não encontrada"));
 
         if(!category.getUser().getId().equals(user.getId())) {
-            throw new RuntimeException("Categoria não pertence ao usuário");
+            throw new BusinessException("Categoria não pertence ao usuário");
         }
 
         expense.setUser(user); //Associa a despesa (expense) ao usuário logado.
@@ -53,7 +54,7 @@ public class ExpenseService{
         User user = securityService.get();
 
         Expense expense = expenseRepository.findByIdAndUser(id, user)
-                .orElseThrow(() -> new RuntimeException("Expense não encontrado"));
+                .orElseThrow(() -> new ResouceNotFoundException("Expense não encontrado"));
 
         expenseRepository.delete(expense);
     }

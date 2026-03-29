@@ -12,4 +12,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<Category> findByNameAndUser(String name, User user); //vier cheio, avisa "ja existe essa categoria"
     //vier vazio, deixa salvar
+
+    Optional<Category> findByIdAndUser(Long id, User user);
 }
