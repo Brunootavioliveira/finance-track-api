@@ -25,6 +25,8 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**",
+                                "/",
+                                "/health",
                                 "/user",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**").permitAll() // se nao fizer /auth/login nao vai entrar
