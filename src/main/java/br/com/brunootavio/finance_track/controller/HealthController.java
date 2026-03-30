@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController //é uma anotação do Spring Boot que diz: "Essa classe vai receber requisições HTTP e devolver respostas em formato JSON (normalmente)."
-@RequestMapping("/hello") //endpoint
-public class TestAPI {
+public class HealthController {
 
-    @GetMapping
-    public String hello() {
-        return "API rodando";
+
+    @GetMapping("/")
+    public String health() {
+        return "API running";
     }
 }
