@@ -26,7 +26,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable()) // desativa proteção CSRF, usado para protecao em navegacao com cookie
-                .cors(cors -> {})
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**",
@@ -34,8 +34,8 @@ public class SecurityConfig {
                                 "/health",
                                 "/user",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**").permitAll() // se nao fizer /auth/login nao vai entrar
-                        .anyRequest().authenticated() // qualquer outra rota precisa ser autenticadas
+                                "/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -49,12 +49,12 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
-                "http://localhost:5173",                 // desenvolvimento local
-                System.getenv("FRONTEND_URL")      // produção
+                "http://localhost:5173",
+                System.getenv("FRONTEND_URL")
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // importante para cookies ou token
+        config.setAllowCredentials(true); //
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
