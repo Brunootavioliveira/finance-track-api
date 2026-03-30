@@ -14,7 +14,7 @@ public class AuthController { //cria endpoint
     private final AuthService authService;
 
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public String login(@RequestBody LoginRequestDTO requestDTO) {
         return authService.login(requestDTO);
     }
